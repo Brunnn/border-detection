@@ -7,8 +7,8 @@ type ImageTypes = "image/png" | "image/jpeg" | "image/gif";
 var imagesPaths: { path: string; type: ImageTypes; name: string }[] = [
   {
     type: "image/jpeg",
-    path: "./images/low.jpg",
-    name: "low.jpg",
+    path: "./images/input.jpg",
+    name: "input.jpg",
   }
 ];
 
@@ -25,8 +25,11 @@ var imagesPaths: { path: string; type: ImageTypes; name: string }[] = [
 
 
     //Aplica o filtro
-    matrix.edgeDetection(true);
-
+    matrix.rotate90degrees();
+    matrix.rotate90degrees();
+    
+ 
+    
 
     //Conversões para ndarray
     var ndarray = matrixToList(matrix);
@@ -35,7 +38,7 @@ var imagesPaths: { path: string; type: ImageTypes; name: string }[] = [
     //Salva os pixels alterados para um formato descrito
     const saved = await savePixels(ndarray, imagePath.type);
 
-    fs.writeFileSync("./images/edge/"+ "sobel_" + imagePath.name, saved);
+    fs.writeFileSync("./images/rotations_mirrors/"+ "rotated180_" + imagePath.name, saved);
 
   }
 })();

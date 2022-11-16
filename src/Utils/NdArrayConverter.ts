@@ -210,13 +210,67 @@ export class NdArrayMatrix {
         if (bordersBlack) {
           result = 255 - result;
         }
-    
 
         this.data[i][j][0] = result;
         this.data[i][j][1] = result;
         this.data[i][j][2] = result;
       }
     }
+  }
+
+  //rotates the matrix in 90 degrees to the right and updates the dimensions, supports non square matrices
+  rotate90degrees(): void {
+      //creates an auxiliary matrix with the new dimensions
+      var auxMatrix: NdArrayMatrix = new NdArrayMatrix();
+      auxMatrix.width = this.height;
+      auxMatrix.height = this.width;
+      auxMatrix.channels = this.channels;
+      auxMatrix.data = new Array<Array<Array<number>>>(auxMatrix.width);
+      for (var i = 0; i < auxMatrix.width; i++) {
+        auxMatrix.data[i] = new Array<Array<number>>(auxMatrix.height);
+        for (var j = 0; j < auxMatrix.height; j++) {
+          auxMatrix.data[i][j] = new Array<number>(auxMatrix.channels);
+        }
+      }
+      //rotates the matrix
+      for (var i = 0; i < this.width; i++) {
+        for (var j = 0; j < this.height; j++) {
+          auxMatrix.data[auxMatrix.width - 1 - j][i] = this.data[i][j];
+        }
+      }
+      //updates the dimensions
+      this.width = auxMatrix.width;
+      this.height = auxMatrix.height;
+      this.data = auxMatrix.data;
+
+  }
+
+  //mirrors the matrix horizontally and updates the dimensions, supports non square matrices
+  mirror(): void {
+      //creates an auxiliary matrix with the new dimensions
+      var auxMatrix: NdArrayMatrix = new NdArrayMatrix();
+      auxMatrix.width = this.width;
+      auxMatrix.height = this.height;
+      auxMatrix.channels = this.channels;
+      auxMatrix.data = new Array<Array<Array<number>>>(auxMatrix.width);
+      for (var i = 0; i < auxMatrix.width; i++) {
+        auxMatrix.data[i] = new Array<Array<number>>(auxMatrix.height);
+        for (var j = 0; j < auxMatrix.height; j++) {
+          auxMatrix.data[i][j] = new Array<number>(auxMatrix.channels);
+        }
+      }
+      //mirrors the matrix
+      for (var i = 0; i < this.width; i++) {
+        for (var j = 0; j < this.height; j++) {
+          auxMatrix.data[this.width - 1 - i][j] = this.data[i][j];
+        }
+      }
+      //updates the dimensions
+      this.width = auxMatrix.width;
+      this.height = auxMatrix.height;
+      this.data = auxMatrix.data;
+
+    
   }
 }
 
